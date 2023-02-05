@@ -12,14 +12,18 @@ int main()
 	string name;
 	char o;
 	int d;
-	cout<<"Welcome to the Word Search Puzzle \n";
+	cout<<"                      # Welcome to Find the word #\n";
+	cout<<"Rules-\n 1.If you Find the  Word without hint you will get 10 points\n 2.If you find the word with the hint you will get 5 points";
+	cout<<"\n 3.And Obviously if you don't find the word you will receive 0 points \n\n  "<<"\n\n";
 	cout<<"Enter Player Name  -  ";
 	getline(cin,name);
 	cout<<endl;
-	cout<<" Press 1 for Easy difficulty \n Press 2 for Hard difficulty \n";
+	system("cls");
+	cout<<" So, you are "<<name<<"\n let's see how many words you can find"<<endl<<endl;
+	cout<<" Press 1 for Effortless mode \n Press 2 for Effortful mode  \n";
 	cin>>d;
-	int highscore;
-	int score;
+    int highscore;
+	int score=0;
 	do
 	{
 		system("cls");
@@ -27,7 +31,7 @@ int main()
 		info();
 		score=score+game(d);
 		cout<<" \n Your Current Score : "<<score<<endl; 
-		cout<<"\n If you like to play the game again press y \n If not press n \n";
+		cout<<"\n Wanna try  again press y \n If not press n \n";
 		cin>>o;
 		cout<<endl;
 	}while(o!='n');
@@ -51,32 +55,36 @@ int main()
 	{
 		if(score>highscore)
 		{
-			cout<<"\nyou got the highest score\n";
+			cout<<"\n *you got the highest score\n";
 			highscore=score;
 		}
 		write<<highscore;
 	}
 	write.close();
-	cout<<"\n the highscore is :"<<highscore;
+	cout<<"\n *the highscore is "<<highscore;
 	
 	}
-	int exit;
-	cin>>exit;
+	return 0;
 	
 }
+
+
+
+//main game
 int game(int u)
 {
-	int l;
+	int l; 
 	if(u==1)
 	{l=5;}
 	else
 	{l=10;}
+	int index;
 	string output;
 	srand(time(0));
-    string j[1000];
-	ifstream read;
+    string j[949];
+	ifstream read;      // for getting the words in the array//528
 	read.open("dir.txt");
-	for(int k=0;k<1000;k++)
+	for(int k=0;k<949;k++)
 	{
 		if(read.is_open())
 		{		
@@ -96,36 +104,30 @@ int game(int u)
             int r;
             r= rand() % 26;   // generate a random number
             c= 'a' + r;   // Convert  a character from a-z
-			//b[i][j]='-'; 
-			 b1[i][j]=c;         
+			//b[i][j]='-'; //cheat
+			 b1[i][j]='*';         
              b[i][j]=c;
         }
     }
     // randomly taking words to insert in the puzzle
-	int index=rand()%1000;
-	output=j[index];
+	
 	int le;
 	if(u==1)
 	{
-	    le=j[index].length();
-		while(le<3 ,le>5)
-		{
-			index=rand()%1000;
-		}
+	    index=rand()%528;
 	}
 	else
 	{
-		le=j[index].length();
-		while(le<3 , le>10)
-		{
-			index=rand()%1000;
-		}
+		index=rand()%949;
 	}
 		
 	
      output=j[index];
+	 le=j[index].length();     
+     
+     
 	//insertion of words
-	int h=rand()%4;
+	int h=rand()%8;
 	
 	int f=(l+1)-le;
 	int dl=(l-le)+1;
@@ -136,7 +138,7 @@ int game(int u)
         for(int i=0;j[index][i]!='\0';i++,col++)
         {
             b[row][col]=j[index][i];
-            b1[row][col]='*';
+            b1[row][col]=j[index][i];
         }
 	}
 	if(h==1)
@@ -146,7 +148,7 @@ int game(int u)
         for(int i=0;j[index][i]!='\0';i++,row++)
         {
             b[row][col]=j[index][i];
-             b1[row][col]='*';
+             b1[row][col]=j[index][i];
     	}
 	}
 	if(h==2)
@@ -157,7 +159,7 @@ int game(int u)
         for(int i=0;j[index][i]!='\0';i++,col--)
         {
             b[row][col]=j[index][i];
-             b1[row][col]='*';
+             b1[row][col]=j[index][i];
         }
 	}
 		if(h==3)
@@ -168,8 +170,57 @@ int game(int u)
         for(int i=0;j[index][i]!='\0';i++,row--)
         {
             b[row][col]=j[index][i];
-             b1[row][col]='*';
+             b1[row][col]=j[index][i];
     	}
+	}
+	//for diagonal 
+	if(h==4)
+	{
+		int row=rand()%dl;
+		int col=rand()%dl;
+		for(int i=0;j[index][i]!='\0';i++,row++,col++)
+		{
+			 b[row][col]=j[index][i];
+             b1[row][col]=j[index][i];
+             
+		}
+	}
+		if(h==5)
+	{
+		int row=rand()%dl;
+		int col=rand()%dl;
+		col=col+l-dl;
+		for(int i=0;j[index][i]!='\0';i++,row++,col--)
+		{
+			 b[row][col]=j[index][i];
+             b1[row][col]=j[index][i];
+             
+		}
+	}
+		if(h==6)
+	{
+		int row=rand()%dl;
+		int col=rand()%dl;
+		row=row+l-dl;
+		for(int i=0;j[index][i]!='\0';i++,row--,col++)
+		{
+			 b[row][col]=j[index][i];
+             b1[row][col]=j[index][i];
+             
+		}
+	}
+		if(h==7)
+	{
+		int row=rand()%dl;
+		int col=rand()%dl;
+		col=col+l-dl;
+		row=row+l-dl;
+		for(int i=0;j[index][i]!='\0';i++,row--,col--)
+		{
+			 b[row][col]=j[index][i];
+             b1[row][col]=j[index][i];
+             
+		}
 	}
 	
 	 for(int i=0;i<l;i++)
@@ -182,18 +233,67 @@ int game(int u)
         }
         cout<<"|"<<endl;
     }
+    
+    
+    
+    
+    
     //win condition
 	string guess;
-	cout<<"  the word you found  "<<endl<<"\t";
+	cout<<"  *If you found the word  write it \n  *if you want hint press 'h'\n  *If you can not found the word press 'l' "<<endl<<"\t";
 	cin>>guess;
+		if(guess=="h")	
+	{
+		string hint_guess;
+		cout<<"\nHint-\n";
+		cout<<"  The length of the word you are finding is "<<le<<endl;
+		cout<<"  and it is written ";
+				if(h==0||h==2)
+				{
+					cout<<"Horizontally";
+				}
+					if(h==1||h==3)
+				{
+					cout<<"Vertically";
+				}
+					if(h==4||h==5||h==6||h==7)
+				{
+					cout<<"Diagonally";
+				}
+			cout<<endl<<"  \n\n  Did you find the word now ? \n  If you have write it \n  If not ,it's time to give up, press n"<<endl;
+			cin>>hint_guess;
+					 if(hint_guess==j[index])
+		   					 {
+		        				cout<<" \n #Congratulations ! You have Found the Hidden word  "<<endl<<endl;
+		        					return 5;
+		   					 }
+   					  if(hint_guess!=j[index])
+					    {
+					        cout<<" #Sorry ! Your word is incorrect "<<endl<<endl;
+					        cout<<"\n the correst word is "<<output<<endl<<endl;
+					         for(int i=0;i<l;i++)
+					   			 {
+					    			cout<<"        ";
+					        		for(int j=0;j<l;j++)
+					        			{
+					          				cout<<"|"<<b1[i][j];
+					         	 
+					       				 }
+					       			 cout<<"|"<<endl;
+					   			 }
+					        return 0;
+					    }
+				
+		}		
+			
 	  if(guess==j[index])
     {
         cout<<" \n Congratulations ! You have Found the Hidden word  "<<endl<<endl;
-        return 1;
+        return 10;
     }
-    else
+   if(guess!=j[index]||guess=="l")
     {
-        cout<<" Sorry ! Your guessed word is incorrect "<<endl<<endl;
+        cout<<" Really ! you can't Find it  "<<endl<<endl;
         cout<<"\n the correst word is "<<output<<endl<<endl;
          for(int i=0;i<l;i++)
    			 {
@@ -206,12 +306,13 @@ int game(int u)
        			 cout<<"|"<<endl;
    			 }
         return 0;
-    }			
-											
-							
+    }
 }
+
+
+
 void info()
 {
-	cout<<" Find the Hidden word           "<<endl;
+	cout<<"   #  Find the Hidden word  #  "<<endl;
 	
 }
